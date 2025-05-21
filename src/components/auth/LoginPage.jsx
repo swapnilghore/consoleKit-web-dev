@@ -2,8 +2,10 @@
 import React from 'react';
 import '../css/auth/LoginPage.css'
 import logo from '../../assets/main_logo.png';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
+
     return (
         <div className="container-fluid vh-100 d-flex align-items-center justify-content-center bg-dark">
             <div className="row w-100 login-container">
@@ -13,7 +15,7 @@ const LoginPage = () => {
                 </div>
 
                 {/* Right Section - Login Form */}
-                <div className="col-md-6 bg-white d-flex flex-column justify-content-center padLoginPage">
+                <div className="col-md-6 bg-white d-flex flex-column justify-content-center padLoginPage" id='loginPage'>
                     <div className="text-center mb-4">
                         <h3 className="text-primary">
                             <img src={logo} alt="Logo" className='p-0 loginImg' width={250} />
@@ -41,7 +43,7 @@ const LoginPage = () => {
 
                         <div className="text-center mb-3">
                             <span className="text-muted">You're new? </span>
-                            <a href="#" className="text-primary text-decoration-none">Sign In</a>
+                            <Link to="/signup" className="text-primary">Sign In</Link>
                         </div>
 
                         <div className="text-center text-muted mb-2">Or with others</div>

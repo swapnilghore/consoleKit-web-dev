@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import LoginPage from './components/auth/LoginPage'
+import SignupPage from './components/auth/SignupPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
       </BrowserRouter>
     </>
