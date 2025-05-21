@@ -5,13 +5,20 @@ import Home from './components/home'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import LoginPage from './components/auth/LoginPage'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Home />
+       <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

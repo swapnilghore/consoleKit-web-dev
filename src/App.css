@@ -1,0 +1,49 @@
+/* HeroComp */
+.experience-section {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bg-lightblue {
+    background-color: #e6efff;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+/* DiscountOffers  */
+.offer-card {
+  transition: transform 0.2s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-4px);
+}
+
+/* TrendingSetups */
+.card:hover {
+  transform: translateY(-4px);
+  transition: transform 0.2s ease;
+}
+
+.bginput::placeholder{
+    color: #a0aec0;
+}
+
+/* LoginPage */
+.login-container {
+  height: 100vh;
+  max-width: 100%;
+}
+
+.gaming-image {
+  background-image: url('./assets/login/loginFirst.png'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+}
+
+.loginImg{
+    margin-bottom: 20%;
+}
+
+

@@ -30,7 +30,7 @@ const Navbar = () => {
         </ul>
 
         <div className="d-flex align-items-center gap-3">
-          <FaRegUser className="text-dark" />
+          <FaRegUser className="text-dark" onClick={() => window.location.href = '/login'} />
           <FaShoppingCart className="text-dark" />
         </div>
       </div>
