@@ -20,7 +20,9 @@ const LoginPage = () => {
                         <h3 className="text-primary">
                             <img src={logo} alt="Logo" className='p-0 loginImg' width={250} />
                         </h3>
-                        <h3>Log in to your account</h3>
+                        <h2 class="text-xl font-semibold">Forget your password?</h2>
+                        <p class="text-secondary text-sm p-0 m-0">Enter the email or phone number</p>
+                        <p class="text-secondary text-sm p-0">associated with your account</p>
                     </div>
 
                     <form>
@@ -30,33 +32,12 @@ const LoginPage = () => {
                             />
                         </div>
 
-                        <div className="mb-2 position-relative">
-                            <label htmlFor="password" className="form-label">Password</label>
-                            <input type="password" className="form-control rounded-pill" placeholder="Password"
-                            />
-                            <small className="d-block text-end mt-1">
-                                <Link to="/forgot" className="text-decoration-none text-dark">Forgot password</Link>
-                            </small>
-                        </div>
-
-                        <button className="btn btn-primary w-100 mb-3 rounded-pill">Login</button>
+                        <button className="btn btn-primary w-100 mb-3 rounded-pill">Send OTP</button>
 
                         <div className="text-center mb-3">
-                            <span className="text-muted">You're new? </span>
-                            <Link to="/signup" className="text-primary">Sign In</Link>
+                            <span className="text-muted">Remember Password? </span>
+                            <Link to="/login" className="text-primary">Log In</Link>
                         </div>
-
-                        <div className="text-center text-muted mb-2">Or with others</div>
-
-                        <button className="btn btn-light w-100 mb-2 border rounded-pill">
-                            <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google" className="me-2" />
-                            Sign up with Google
-                        </button>
-
-                        <button className="btn btn-light w-100 border rounded-pill">
-                            <img src="https://img.icons8.com/ios-filled/16/000000/mac-os.png" alt="Apple" className="me-2" />
-                            Sign up with Apple
-                        </button>
                     </form>
                 </div>
             </div>
