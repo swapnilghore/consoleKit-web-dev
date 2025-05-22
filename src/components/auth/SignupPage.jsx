@@ -1,11 +1,36 @@
 import React, { useState } from "react";
+import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import logo from '../../assets/main_logo.png';
 import singUp from '../../assets/login/singUp.png'
+import { signInWithGoogle } from "../../firebase-auth";
+import { useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const navigate = useNavigate();
+
+    const loginWithGoogle = async (e) => {
+        e.preventDefault();
+        console.log("Google button clicked");
+        try {
+            const user = await signInWithGoogle();
+            if (user.accessToken) {
+                localStorage.setItem("google_access_token", user.accessToken);
+            }
+            localStorage.setItem("user", JSON.stringify({
+                name: user.displayName,
+                email: user.email,
+                uid: user.uid,
+                photoURL: user.photoURL,
+            }));
+            toast.success(`Welcome ${user.displayName}`);
+            navigate('/dashboard');
+        } catch (error) {
+            toast.error('Login failed. Please try again...');
+        }
+    };
 
     return (
         <div className="container-fluid vh-100">
@@ -32,12 +57,12 @@ const SignupPage = () => {
 
                         {/* Social buttons */}
                         <div className="d-grid gap-2 mb-3">
-                            <button className="btn btn-light border rounded-pill">
+                            <button className="btn btn-light border rounded-pill" onClick={(e) => loginWithGoogle(e)}>
                                 <img src="https://img.icons8.com/color/16/000000/google-logo.png" className="me-2" alt="Google"
                                 />
                                 Sign up with Google
                             </button>
-                            <button className="btn btn-light border rounded-pill">
+                            <button className="btn btn-light border rounded-pill" onClick={() => toast.error('Apple Sign-In not working please try another method...')}>
                                 <img src="https://img.icons8.com/ios-filled/16/000000/mac-os.png" className="me-2" alt="Apple"
                                 />
                                 Sign up with Apple
