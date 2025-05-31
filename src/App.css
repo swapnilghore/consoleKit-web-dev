@@ -56,3 +56,11 @@
     background-repeat: no-repeat;
     background-color: #000000;
 }
+
+.logout-dropdown{
+  top: 100%; 
+  left: 0; 
+  color: #fff; 
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}

@@ -1,16 +1,19 @@
-// LoginPage.js
 import React from 'react';
 import { toast } from 'react-toastify';
-import '../css/auth/LoginPage.css'
-import logo from '../../assets/main_logo.png';
 import { Link } from 'react-router-dom';
-import { signInWithGoogle } from "../../firebase-auth";
 import { useNavigate } from 'react-router-dom';
+import '../../styles/auth/LoginPage.css';
+import logo from '../../assets/main_logo.png';
+import { signInWithGoogle } from "../../firebase-auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import  auth  from "../../firebase-auth";
 
 const LoginPage = () => {
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
     const navigate = useNavigate();
 
-    const loginWithGoogle = async (e) => {
+    const loginWithGoogle = async () => {
         try {
             const user = await signInWithGoogle();
             if (user.accessToken) {
@@ -25,7 +28,37 @@ const LoginPage = () => {
             toast.success(`Welcome ${user.displayName}`);
             navigate('/dashboard');
         } catch (error) {
+            console.log(error);
             toast.error('Login failed. Please try again...');
+        }
+    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            if (user.accessToken) {
+                localStorage.setItem("google_access_token", user.accessToken);
+            }
+            localStorage.setItem("user", JSON.stringify({
+                name: user.displayName,
+                email: user.email,
+                uid: user.uid,
+                photoURL: user.photoURL || null,
+            }));
+            toast.success(`Welcome ${user.displayName}`);
+            navigate('/dashboard');
+
+            console.log("User logged in:", user);
+        } catch (error) {
+            if (error.code === "auth/user-not-found") {
+                toast.error("No account found for this email.");
+            } else if (error.code === "auth/wrong-password") {
+                toast.error("Incorrect password. Please try again.");
+            } else {
+                toast.error("Login failed: " + error.message);
+            }
         }
     };
 
@@ -50,19 +83,19 @@ const LoginPage = () => {
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email</label>
                             <input type="email" className="form-control rounded-pill" placeholder="console@gmail.com"
-                            />
+                            value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
 
                         <div className="mb-2 position-relative">
                             <label htmlFor="password" className="form-label">Password</label>
                             <input type="password" className="form-control rounded-pill" placeholder="Password"
-                            />
+                            value={password} onChange={(e) => setPassword(e.target.value)} />
                             <small className="d-block text-end mt-1">
                                 <Link to="/forgot" className="text-decoration-none text-dark">Forgot password</Link>
                             </small>
                         </div>
 
-                        <button className="btn btn-primary w-100 mb-3 rounded-pill">Login</button>
+                        <button onClick={handleLogin} className="btn btn-primary w-100 mb-3 rounded-pill">Login</button>
 
                         <div className="text-center mb-3">
                             <span className="text-muted">You're new? </span>

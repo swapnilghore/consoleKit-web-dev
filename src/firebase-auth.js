@@ -28,21 +28,4 @@ export const signInWithGoogle = async () => {
     }
 };
 
-
-
-const apple_provider = new OAuthProvider("apple.com");
-const apple_auth = getAuth(app);
-
-export const signInWithApple = async () => {
-  try {
-    const result = await signInWithPopup(apple_provider, apple_auth);
-    const user = result.user;
-    console.log("Apple User:", user);
-    alert(`Welcome ${user.displayName || user.email}`);
-  } catch (error) {
-    console.error("Apple Login Error", error);
-    alert("Apple login failed");
-  }
-};
-
 export default auth;
