@@ -1,19 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import logo from '../../assets/main_logo.png';
 import singUp from '../../assets/login/singUp.png'
 import { signInWithGoogle } from "../../firebase-auth";
-import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import auth from "../../firebase-auth";
+import { IoMdEye } from "react-icons/io";
+
 
 const SignupPage = () => {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const loginWithGoogle = async (e) => {
-        e.preventDefault();
-        console.log("Google button clicked");
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            navigate("/dashboard");
+        }
+    }, [])
+
+    const loginWithGoogle = async () => {
         try {
             const user = await signInWithGoogle();
             if (user.accessToken) {
@@ -28,9 +40,45 @@ const SignupPage = () => {
             toast.success(`Welcome ${user.displayName}`);
             navigate('/dashboard');
         } catch (error) {
+            console.log(error);
             toast.error('Login failed. Please try again...');
         }
     };
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        console.log("Submit clicked");
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log("User signed up:", userCredential.user);
+            const user = userCredential.user;
+
+            await updateProfile(user, {
+                displayName: name,
+            });
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify({
+                    uid: user.uid,
+                    email: user.email,
+                    name: user.displayName,
+                    photoURL: user.photoURL || null,
+                })
+            );
+            toast.success("Account created successfully!");
+            navigate("/login");
+        } catch (err) {
+            toast.error(err.message);
+        }
+    };
+
+
+    const togglePassword = () => {
+        setShowPassword((prev) => !prev);
+    };
+
 
     return (
         <div className="container-fluid vh-100">
@@ -73,39 +121,45 @@ const SignupPage = () => {
                             — Or continue with email —
                         </div>
 
-                        {/* Form */}
-                        <form>
+                        <form onSubmit={handleSignUp}>
                             <div className="mb-3">
                                 <label className="form-label">Your full name</label>
                                 <input type="text" className="form-control rounded-pill" placeholder="Anjali Pandey"
-                                />
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required />
                             </div>
 
                             <div className="mb-3">
                                 <label className="form-label">Email</label>
                                 <input type="email" className="form-control rounded-pill" placeholder="console@gmail.com"
-                                />
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)} />
                             </div>
 
                             <div className="mb-3 position-relative">
                                 <label className="form-label">Password</label>
                                 <input type={showPassword ? "text" : "password"} className="form-control rounded-pill" placeholder="********"
-                                />
-                                <span className="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" style={{ cursor: "pointer" }} onClick={() => setShowPassword(!showPassword)}
-                                >
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required />
+                                <span className="position-absolute end-0 top-50 translate-middle-y me-3 fs-4 text-muted" style={{ cursor: "pointer", marginTop: "12px" }} onClick={() => togglePassword(!showPassword)}
+                                ><IoMdEye />
                                 </span>
                             </div>
 
                             <div className="mb-4 position-relative">
                                 <label className="form-label">Confirm password</label>
                                 <input type={showConfirmPassword ? "text" : "password"} className="form-control rounded-pill" placeholder="********"
-                                />
-                                <span className="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" style={{ cursor: "pointer" }} onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                >
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required />
+                                <span className="position-absolute end-0 top-50 translate-middle-y me-3 text-muted fs-4" style={{ cursor: "pointer", marginTop: "12px" }} onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                ><IoMdEye />
                                 </span>
                             </div>
 
-                            <button className="btn btn-primary w-100 mb-3 rounded-pill">Sign up</button>
+                            <button type="submit" className="btn btn-primary w-100 mb-3 rounded-pill">Sign up</button>
                             <div className="text-center small">Already a member? <Link to="/login">Log In</Link>
                             </div>
                         </form>
