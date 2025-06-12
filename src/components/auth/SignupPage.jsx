@@ -6,7 +6,7 @@ import logo from '../../assets/main_logo.png';
 import singUp from '../../assets/login/singUp.png'
 import { signInWithGoogle } from "../../firebase-auth";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import auth from "../../firebase-auth";
+import { auth } from "../../firebase-auth";
 import { IoMdEye } from "react-icons/io";
 
 

@@ -6,7 +6,7 @@ import '../../styles/auth/LoginPage.css';
 import logo from '../../assets/main_logo.png';
 import { signInWithGoogle } from "../../firebase-auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import  auth  from "../../firebase-auth";
+import { auth }  from "../../firebase-auth";
 
 const LoginPage = () => {
     const [email, setEmail] = React.useState("");
