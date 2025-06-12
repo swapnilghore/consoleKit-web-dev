@@ -11,6 +11,8 @@ import ForgotPassword from './components/auth/ForgotPassword'
 import Dashboard from './components/dashboard/Dashboard'
 import PrivateRoute from './components/auth/PrivateRoute'
 import Rentals from './components/rentals/Rentals';
+import Rent from './components/dashboard/rent/Rent';
+import RentalDetailPage from './components/dashboard/rent/RentalDetailPage';
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<PrivateRoute> <Dashboard /> </PrivateRoute>} />
+          <Route path="/rent" element={<PrivateRoute> <Rent /> </PrivateRoute>} />
+          <Route path="/rent-detail/:id" element={<PrivateRoute> <RentalDetailPage /> </PrivateRoute>} />
           <Route path="/rentals/*" element={<PrivateRoute> <Rentals /> </PrivateRoute>} />
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"
